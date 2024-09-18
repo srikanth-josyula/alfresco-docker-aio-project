@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  transform-core-aio:
+    image: alfresco/alfresco-transform-core-aio:5.1.4
+    mem_limit: 1536m
+    environment:
+      JAVA_OPTS: >-
+        -XX:MinRAMPercentage=50
+        -XX:MaxRAMPercentage=80
+    ports:
+      - "8090:8090"
