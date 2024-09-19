@@ -25,7 +25,7 @@ services:
         -Dsolr.sharedSecret=secret
         -Dsolr.base.url=/solr
         -Dindex.subsystem.name=solr6
-        -Dshare.host=127.0.0.1
+        -Dshare.host=localhost
         -Dshare.port=8080
         -Dalfresco.host=localhost
         -Dalfresco.port=8080
@@ -38,14 +38,20 @@ services:
         -XX:MaxRAMPercentage=80
 
   transform-core-aio:
-    image: alfresco/alfresco-transform-core-aio:5.1.4
+    #image: alfresco/alfresco-transform-core-aio:5.1.4    #We are overriding the ats-default adding custom temp location added -Djava.io.tmpdir=/ttmp/custom-ats-temp for my custom location
+    build:
+      context: ./ats                           # ats path where the docker is there
+      dockerfile: Dockerfile                   # Make sure this matches the name of your Dockerfile, (you can also build image seperatly and provide image: custom-transform-core-aio:latest, no dockerfile tag)
     mem_limit: 1536m
     environment:
       JAVA_OPTS: >-
         -XX:MinRAMPercentage=50
         -XX:MaxRAMPercentage=80
+        -Djava.io.tmpdir=/tmp/custom-ats-temp
     ports:
       - "8090:8090"
+    volumes:
+      - ats-temp:/tmp/custom-ats-temp               # Map the custom-ats-temp to the custom temp directory inside the container
 
   share:
     image: docker.io/alfresco/alfresco-share:23.3.0
@@ -104,10 +110,14 @@ services:
   # Using custom nginx config
   nginx:                      
     build:
-      context: .                        
-      dockerfile: Dockerfile
+      context: ./nginx                # Set the build context to the nginx folder (We are going with Dockerfile approach)
+      dockerfile: Dockerfile          # Specify the Dockerfile inside the nginx folder
     mem_limit: 128m
     depends_on:
       - alfresco
     ports:
       - "8080:8080"
+
+# Define the custom volume for the ats-temp directory
+volumes:
+  ats-temp:
