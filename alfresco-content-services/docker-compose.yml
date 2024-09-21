@@ -57,6 +57,8 @@ services:
     image: docker.io/alfresco/alfresco-share:23.3.0
     mem_limit: 1g
     environment:
+      CSRF_FILTER_REFERER: "http://localhost(:[0-9]*)?/.*"    # Allow any port on localhost
+      CSRF_FILTER_ORIGIN: "http://localhost:8080"             # Set origin for localhost
       REPO_HOST: "alfresco"
       REPO_PORT: "8080"
       JAVA_OPTS: >-
