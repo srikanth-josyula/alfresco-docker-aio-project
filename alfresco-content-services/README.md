@@ -7,3 +7,8 @@
 
 ### Issue-1:
 1. 2024-09-19T21:51:41,215 [] ERROR [alfresco.web.site] [http-nio-8080-exec-2] jakarta.servlet.ServletException: Possible CSRF attack noted when asserting referer header 'http://localhost:8080/share/page'. Request: POST /share/page/dologin, FAILED TEST: Assert referer POST /share/page/dologin :: referer: 'http://localhost:8080/share/page' vs server & context: http://localhost/ (string) or  (regexp)
+   - Fix: Add below under share, environment 
+	` CSRF_FILTER_REFERER: "http://localhost(:[0-9]*)?/.*"    # Allow any port on localhost
+          CSRF_FILTER_ORIGIN: "http://localhost:8080"             # Set origin for localhost`
+     
+
