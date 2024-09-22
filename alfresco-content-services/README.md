@@ -1,6 +1,11 @@
 ## alfresco-content-services
 
-### Case 1 : Default from https://github.com/Alfresco/acs-deployment/blob/master/docker-compose/community-docker-compose.yml
+### Case 1 : Default from 
+https://github.com/Alfresco/acs-deployment/blob/master/docker-compose/community-docker-compose.yml
+
+* Other ReF:
+https://github.com/aborroy/alfresco-upgrade-7-to-23/blob/main/README.md
+https://github.com/jpotts/share-site-creators/releases/tag/0.0.7
 
 ### Case 2 : Custome Nginx image, so we can remove dependencies on content-app which is not being used 
 			`docker-compose up --build` (use this to re build the image after change in dockerFile)
